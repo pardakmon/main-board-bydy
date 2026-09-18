@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>통합 상황판</title>
+    <style>
+
+        :root {
+            --bg-color: #f5f5f7;
+            --text-main: #1d1d1f;
+            --text-sub: #86868b;
+            --card-bg: #ffffff;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+
+            font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            letter-spacing: -0.5px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+        }
+        .header p {
+            font-size: 1.2rem;
+            color: var(--text-sub);
+            margin: 0;
+            font-weight: 400;
+        }
+        .container {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            width: 320px;
+            height: 240px;
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            /* 은은한 그림자 효과 */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.04);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-sizing: border-box;
+            padding: 30px;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+        }
+        .card-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        .card-title {
+            color: var(--text-main);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0 0 8px 0;
+        }
+        .card-desc {
+            color: var(--text-sub);
+            font-size: 1rem;
+            text-align: center;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>통합 상황판</h1>
+        <p>신속하고 정확한 현장 대응 시스템</p>
+    </div>
+
+    <div class="container">
+        <!-- href 안에 아파트 화재 현황판 웹사이트 주소를 넣으세요 -->
+        <a href="https://pardakmon.github.io/apt-fire-board-bydy" class="card">
+            <div class="card-icon">🏢🔥</div>
+            <h2 class="card-title">아파트 화재</h2>
+            <p class="card-desc">세대별 대피 및 구조 현황</p>
+        </a>
+
+        <!-- href 안에 교통사고 현황판 웹사이트 주소를 넣으세요 -->
+        <a href="https://pardakmon.github.io/accident-board-bydy" class="card">
+            <div class="card-icon">🚗💥</div>
+            <h2 class="card-title">교통사고</h2>
+            <p class="card-desc">사고 발생 및 처리 현황</p>
+        </a>
+    </div>
+
+</body>
+</html>
