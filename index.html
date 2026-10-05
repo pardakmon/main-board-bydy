@@ -95,6 +95,11 @@
         <p>신속하고 정확한 현장 대응 시스템</p>
     </div>
 
+<!-- 🌟 QR코드 팝업 띄우기 버튼 -->
+<button type="button" onclick="document.getElementById('qrModal').style.display='flex'" style="background:#0f172a; color:#fff; border-radius:12px; padding:12px 20px; font-weight:bold; cursor:pointer; border:none; display:inline-flex; align-items:center; gap:8px; margin-top:20px;">
+  📱 통합현황판 QR 확인 (스티커용)
+</button>
+
     <div class="container">
         <!-- href 안에 아파트 화재 현황판 웹사이트 주소를 넣으세요 -->
         <a href="https://pardakmon.github.io/apt-fire-board-bydy" class="card">
@@ -110,6 +115,39 @@
             <p class="card-desc">사고 발생 및 부상자 현황</p>
         </a>
     </div>
+
+<!-- ========================================== -->
+<!-- 🌟 통합현황판 메인 QR코드 팝업창 시작 -->
+<!-- ========================================== -->
+<div id="qrModal" style="display:none; position:fixed; inset:0; background:rgba(15,23,42,0.7); backdrop-filter:blur(3px); align-items:center; justify-content:center; z-index:99999;">
+  <div style="background:#fff; border-radius:16px; padding:30px; width:90vw; max-width:320px; text-align:center; box-shadow:0 20px 25px -5px rgba(0,0,0,0.1);">
+    <h3 style="margin:0 0 10px 0; font-size:18px; color:#1e293b; font-weight:900;">영등포 통합현황판</h3>
+    <div style="font-size:13px; color:#64748b; margin-bottom:20px; font-weight:600;">스마트폰 카메라로 비추면 접속됩니다</div>
+    
+    <!-- QR코드가 들어갈 액자 -->
+    <div style="background:#f8fafc; padding:15px; border-radius:12px; border:1px solid #e2e8f0; display:inline-block; margin-bottom:20px;">
+      <img id="mainQrImage" src="" alt="QR Code" style="width:200px; height:200px; display:block;">
+    </div>
+    
+    <button type="button" onclick="document.getElementById('qrModal').style.display='none'" style="width:100%; padding:14px; background:#f1f5f9; color:#334155; border:none; border-radius:12px; font-size:14.5px; font-weight:800; cursor:pointer;">
+      닫기
+    </button>
+  </div>
+</div>
+
+<script>
+  // 🌟 페이지가 열릴 때 깃허브 메인 주소를 QR코드로 자동 변환!
+  window.addEventListener('DOMContentLoaded', () => {
+    // 영구 고정된 메인 홈페이지 주소
+    const myHomepageUrl = "https://pardakmon.github.io/main-board-bydy/"; 
+    
+    const encodedUrl = encodeURIComponent(myHomepageUrl);
+    document.getElementById('mainQrImage').src = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&margin=1&data=" + encodedUrl;
+  });
+</script>
+<!-- ========================================== -->
+<!-- 🌟 통합현황판 메인 QR코드 팝업창 끝 -->
+<!-- ========================================== -->
 
 </body>
 </html>
