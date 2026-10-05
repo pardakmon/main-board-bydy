@@ -90,15 +90,20 @@
 </head>
 <body>
 
-    <div class="header">
-        <h1>영등포소방서<br>통합 현황판</h1>
-        <p>신속하고 정확한 현장 대응 시스템</p>
+<!-- 🌟 전체를 하나의 박스로 묶어 천장에서 40px 띄우고 중앙 정렬 -->
+<div style="display: flex; flex-direction: column; align-items: center; padding-top: 40px; margin-bottom: 20px;">
+    
+    <!-- 대원님의 원본 문구 (건드리지 않음, 여백만 살짝 제거) -->
+    <div class="header" style="margin-bottom: 0;">
+        <h1 style="margin-bottom: 5px;">영등포소방서<br>통합 현황판</h1>
+        <p style="margin-top: 0;">신속하고 정확한 현장 대응 시스템</p>
     </div>
 
-<!-- 🌟 QR코드 팝업 띄우기 버튼 -->
-<button type="button" onclick="document.getElementById('qrModal').style.display='flex'" style="background:#0f172a; color:#fff; border-radius:12px; padding:12px 20px; font-weight:bold; cursor:pointer; border:none; display:inline-flex; align-items:center; gap:8px; margin-top:20px;">
-  📱 통합현황판 QR 확인 (스티커용)
-</button>
+    <!-- 🌟 버튼: 기존 margin-top:20px 을 8px로 줄여서 위쪽 문구와 확 밀착시킴 -->
+    <button type="button" onclick="document.getElementById('qrModal').style.display='flex'" style="background:#0f172a; color:#fff; border-radius:12px; padding:12px 20px; font-weight:bold; cursor:pointer; border:none; display:inline-flex; align-items:center; gap:8px; margin-top: 8px;">
+      📱 통합현황판 QR 코드
+    </button>
+</div>
 
     <div class="container">
         <!-- href 안에 아파트 화재 현황판 웹사이트 주소를 넣으세요 -->
