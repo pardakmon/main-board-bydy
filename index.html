@@ -1,125 +1,43 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>영등포 통합 현황판</title>
-    <style>
+// 🌟 이름을 v2로 올려서 사파리에게 "이전 기억은 다 지우고 새 코드를 받아라!" 라고 강제 명령
+const CACHE_NAME = 'fire-board-v2';
+const urlsToCache = [
+  './',
+  './index.html',
+  './manifest.json',
+  './icon-512.png'
+];
 
-        :root {
-            --bg-color: #f5f5f7;
-            --text-main: #1d1d1f;
-            --text-sub: #86868b;
-            --card-bg: #ffffff;
-        }
-        body {
-            margin: 0;
-            padding: 0;
+self.addEventListener('install', event => {
+  self.skipWaiting(); // 대기하지 않고 새 마법사 즉시 투입
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
+  );
+});
 
-            font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            letter-spacing: -0.5px;
-        }
-        .header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-        .header h1 {
-            font-size: 2.8rem;
-            font-weight: 700;
-            margin: 0 0 10px 0;
-        }
-        .header p {
-            font-size: 1.2rem;
-            color: var(--text-sub);
-            margin: 0;
-            font-weight: 400;
-        }
-        .container {
-            display: flex;
-            gap: 30px;
-            flex-wrap: wrap;
-            justify-content: center;
-            padding: 20px;
-        }
+self.addEventListener('activate', event => {
+  // 구버전(v1) 찌꺼기 완벽하게 청소해서 파이어베이스 충돌 원인 제거
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cache => {
+          if (cache !== CACHE_NAME) {
+            return caches.delete(cache);
+          }
+        })
+      );
+    })
+  );
+  self.clients.claim();
+});
 
-        .card {
-            background-color: var(--card-bg);
-            width: 320px;
-            height: 240px;
-            border-radius: 24px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            /* 은은한 그림자 효과 */
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.04);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-sizing: border-box;
-            padding: 30px;
-        }
+self.addEventListener('fetch', event => {
+  // 파이어베이스 등 외부 데이터는 마법사가 아예 쳐다보지도 않고 무조건 통과!
+  if (event.request.method !== 'GET' || !event.request.url.startsWith(self.location.origin)) {
+    return;
+  }
 
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
-        }
-        .card-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-        }
-        .card-title {
-            color: var(--text-main);
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin: 0 0 8px 0;
-        }
-        .card-desc {
-            color: var(--text-sub);
-            font-size: 1rem;
-            text-align: center;
-            margin: 0;
-        }
-    </style>
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#1e293b">
-
-  <link rel="apple-touch-icon" href="icon-512.png">
-</head>
-<body>
-
-    <div class="header">
-        <h1>영등포소방서<br>통합 현황판</h1>
-        <p>신속하고 정확한 현장 대응 시스템</p>
-    </div>
-
-    <div class="container">
-        <!-- href 안에 아파트 화재 현황판 웹사이트 주소를 넣으세요 -->
-        <a href="https://pardakmon.github.io/apt-fire-board-bydy" class="card">
-            <div class="card-icon">🏢🔥</div>
-            <h2 class="card-title">공동주택 화재</h2>
-            <p class="card-desc">세대별 대피 및 구조 현황</p>
-        </a>
-
-        <!-- href 안에 교통사고 현황판 웹사이트 주소를 넣으세요 -->
-        <a href="https://pardakmon.github.io/accident-board-bydy" class="card">
-            <div class="card-icon">🚗💥</div>
-            <h2 class="card-title">교통사고</h2>
-            <p class="card-desc">사고 발생 및 부상자 현황</p>
-        </a>
-    </div>
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./service-worker.js');
-      });
-    }
-  </script>
-</body>
-</html>
+  // 🌟 핵심 (네트워크 우선): 일단 인터넷(GitHub)에서 최신 데이터를 가져와 보고, 실패하면(오프라인이면) 임시저장본 띄우기
+  event.respondWith(
+    fetch(event.request).catch(() => caches.match(event.request))
+  );
+});
